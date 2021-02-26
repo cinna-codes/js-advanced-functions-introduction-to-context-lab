@@ -53,17 +53,19 @@ function wagesEarnedOnDate(employee, date) {
 }
 
 function allWagesFor(employee) {
-    // let allWages
-    // iterate over employee.timeInEvents & timeOutEvents...maybe get length? .map all the dates and then .reduce that new array? 
-    // let datesWorked = employee.timeInEvents.map(ev => ev.date)
-    // datesWorked.reduce
-    let allDates = employee.timeInEvents.map(function(e){ e.date })
+    let datesWorked = employee.timeInEvents.map(function(event){ return event.date })
+    let allWages = datesWorked.reduce(function(total, date) { // `total` is total, `date` is the variable name for each item in the array
+        return total + wagesEarnedOnDate(employee, date) // the return value automatically becomes the new `total` value
+    }, 0) // 0 is the starting point
+    return allWages
 }
 
 function findEmployeeByFirstName(srcArray, firstName) {
-
+    return srcArray.find(emp => firstName === emp.firstName)
 }
 
 function calculatePayroll(srcArray) {
-
+    return srcArray.reduce(function(total, emp) {
+        return total + allWagesFor(emp)
+    }, 0)
 }
